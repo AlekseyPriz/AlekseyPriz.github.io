@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Coords</title>
+
+    <script>
+
+    var type;
+
+
+
+    document.onmousemove = function(e) {
+    var coordsX;
+    var coordsY;
+    var x = e.screenX;
+    var y = e.screenY;
+    var yy;
+    var xx;
+
+    var div = document.getElementById('coords');
+    var divCoords = div.getBoundingClientRect();
+
+    if (type == "1") {
+
+      div.style.borderRadius = '150px';
+
+      document.getElementById('buttonScreen').style.backgroundColor = 'green';
+      document.getElementById('buttonBrowser').style.backgroundColor = '#9AE19A';
+      document.getElementById('buttonElement').style.backgroundColor = '#9AE19A';
+
+      x = e.screenX; y = e.screenY;
+
+    } else if (type == "2") {
+
+      div.style.borderRadius = '150px';
+
+      document.getElementById('buttonScreen').style.backgroundColor = '#9AE19A';
+      document.getElementById('buttonBrowser').style.backgroundColor = 'green';
+      document.getElementById('buttonElement').style.backgroundColor = '#9AE19A';
+
+      x = e.clientX; y = e.clientY;
+
+    } else if (type == "3") {
+
+      div.style.borderRadius = '0px';
+
+      document.getElementById('buttonScreen').style.backgroundColor = '#9AE19A';
+      document.getElementById('buttonBrowser').style.backgroundColor = '#9AE19A';
+      document.getElementById('buttonElement').style.backgroundColor = 'green';
+
+      yy = e.clientY - divCoords.top;
+      xx = e.clientX - divCoords.left;
+      if ( yy >= 0 && yy <= 300 ) { y = yy; x = xx; }
+      else {
+        y = 0;
+        x = 0;
+      }
+    }
+
+    if ( x>= 0 && x <= 9 ) {
+      coordsX = "000" + x;
+    } else if ( x >= 10 && x <= 99 ) {
+      coordsX = "00" + x;
+    } else if ( x >= 100 && x <= 999 ) {
+      coordsX = "0" + x;
+    } else if ( x >= 1000 ) {
+      coordsX = x;
+    } else {
+      coordsX = "0000";
+    };
+
+    if ( y>= 0 && y <= 9 ) {
+      coordsY = "000" + y;
+    } else if ( y >= 10 && y <= 99 ) {
+      coordsY = "00" + y;
+    } else if ( y >= 100 && y <= 999 ) {
+      coordsY = "0" + y;
+    } else {
+      coordsY = "0000";
+    };
+
+    document.getElementById('coords').innerHTML = coordsX + ' : ' + coordsY;
+
+  };
+
+    </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+    <style>
+
+        body {
+    margin: 0px;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+    #coords {
+    margin: 100px 0 0 0;
+    background-color: peachpuff;
+    width: auto;
+    height: 300px;
+    line-height: 300px;
+    text-align: center;
+    font-size: 200px;
+    color: goldenrod;
+    border-radius: 150px;
+}
+
+    .toolbar {
+    border-radius: 40px;
+    text-align: center;
+    font-size: 30px;
+    width: auto;
+    height: 80px;
+    line-height: 80px;
+    background-color: #A496D1;
+    }
+
+    .description {
+        margin: 20px 50px 20px 50px;
+        }
+
+    p { margin: 0 0 10px 0;
+
+        }
+
+    .button {
+    border-radius: 25px;
+    width: 250px;
+    height: 50px;
+    line-height: 50px;
+    background-color: #9AE19A;
+    display: inline-block;
+        }
+
+
+    </style>
+</head>
+
+   <body>
+    <div class="toolbar">
+        <div class="button" id="buttonScreen">Экран</div>
+        <div class="button" id="buttonBrowser">Окно браузера</div>
+        <div class="button" id="buttonElement">Элемент</div>
+    </div>
+    <div class="description">
+        <p><strong>Экран</strong> - при нажатии на кнопку "Экран" координаты будут отсчитываться от верхнего левого угла экрана.</p>
+        <p><strong>Окно браузера</strong> - при нажатии на кнопку "Окно браузера" координаты будут отсчитываться от верхнего левого угла окна браузера, не зависимо от его положения на рабочем столе.</p>
+        <p><strong>Элемент</strong> - при нажатии на кнопку "Элемент" координаты будут отсчитываться от верхнего левого угла счетчик. За пределами счетчика координаты не определяются</p>
+    </div>
+    <div id="coords">Координаты</div>
+
+
+<script>
+
+buttonScreen.onclick = function()  { value =  "Screen"; type ="1"; }
+buttonBrowser.onclick = function() { value = "Browser"; type ="2"; }
+buttonElement.onclick = function() { value = "Element"; type ="3"; }
+
+</script>
+
+    </body>
+</html>
