@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Coords</title>
+    <style>
+        body {
+            margin: 0px;
+            padding: 60px 0 0 0;
+        }
+
+        #menu {
+            position: fixed;
+            top: 0;
+            background-color: #d7dbdb;
+            width: 100%;
+            height: 50px;
+        }
+
+        ul {
+            list-style: none;
+            margin: 0;
+        }
+
+        li {
+            text-decoration: none;
+            float: left;
+            height: 50px;
+            line-height: 50px;
+            width: 100px;
+
+        }
+    </style>
+    <script>
+
+		var start = new Date;
+
+		var blueColor = 255;
+		var redColor = 0;
+
+		var cWidth = document.documentElement.clientWidth;
+		var cHeight = document.documentElement.clientHeight;
+
+		var goal = {
+			x: Math.round( Math.random() * cWidth ),
+			y: Math.round( Math.random() * cHeight ),
+		};
+		debugger;
+    document.onmousemove = function(e) {
+
+
+			var cBisector = Math.round( Math.sqrt( Math.pow(cWidth, 2)  + Math.pow(cHeight, 2)));
+
+			var toGoalX = goal.x - e.clientX;
+			var toGoalY = goal.y - e.clientY;
+			var toGoal = Math.round( Math.sqrt( Math.pow(toGoalX, 2) + Math.pow(toGoalY, 2)));
+			var toGoalUE = Math.round( +toGoal * 255  / +cBisector );
+
+			document.getElementById('coords').innerHTML = 'Координаты: ' + e.clientX + ' : ' + e.clientY;
+			document.getElementById('blue').innerHTML = 'Синий: '+ blueColor;
+			document.getElementById('red').innerHTML = ' Красный: '+ redColor;
+			document.getElementById('toGoalX').innerHTML = ' Расстояние до цели Х: ' + toGoalX;
+			document.getElementById('toGoalY').innerHTML = ' Расстояние до цели У: ' + toGoalY;
+			document.getElementById('toGoal').innerHTML = ' Расстояние до цели: ' + toGoal;
+			document.getElementById('toGoalUE').innerHTML = ' Расстояние до цели в УЕ: ' + toGoalUE;
+			document.getElementById('mainCoords').innerHTML = ' Ширина: ' + cWidth +
+																										'<br> Высота: ' + cHeight +
+																										'<br> Биссектрисса: ' + cBisector;
+
+
+		redColor  = 255 - toGoalUE;
+
+		document.body.style.backgroundColor =  'rgb(' + redColor + ', 00, ' + toGoalUE + ')' ;
+		if ( toGoalUE < 5 ) {
+			var finish = Math.round( (new Date - start)/ 1000 );
+			alert("Победа за " + finish + " сек.")};
+	};
+
+
+
+
+
+    </script>
+
+</head>
+
+<body>
+        <div id="menu">
+            <ul>
+                <li>Правила</li>
+                <li>Рекорд</li>
+                <li>Раунд</li>
+                <li>Уровень сложности</li>
+            </ul>
+        </div>
+
+    	  	        <div id="coords">Координаты</div>
+					<div id="blue">Синий</div>
+					<div id="red">Красный</div>
+					<div id="toGoalX">Расстояние до цели Х: </div>
+					<div id="toGoalY">Расстояние до цели У:</div>
+					<div id="toGoal">Расстояние до цели: </div>
+					<div id="toGoalUE">Расстояние до цели в УЕ: </div>
+					<div id="mainCoords">Размеры главного дива: </div>
+
+  </body>
+</html>
