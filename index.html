@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <title>Coords</title>
@@ -24,16 +24,18 @@
 
         li {
             text-decoration: none;
+            padding-left: 20px;
             float: left;
             height: 50px;
             line-height: 50px;
-            width: 100px;
+            width: auto;
 
         }
     </style>
     <script>
 
 		var start = new Date;
+
 
 		var blueColor = 255;
 		var redColor = 0;
@@ -45,7 +47,7 @@
 			x: Math.round( Math.random() * cWidth ),
 			y: Math.round( Math.random() * cHeight ),
 		};
-		debugger;
+
     document.onmousemove = function(e) {
 
 
@@ -66,13 +68,13 @@
 			document.getElementById('mainCoords').innerHTML = ' Ширина: ' + cWidth +
 																										'<br> Высота: ' + cHeight +
 																										'<br> Биссектрисса: ' + cBisector;
-
+      document.getElementById('timer').innerHTML = 'Время: ' + Math.round( ( new Date - start ) / 1000 );
 
 		redColor  = 255 - toGoalUE;
 
 		document.body.style.backgroundColor =  'rgb(' + redColor + ', 00, ' + toGoalUE + ')' ;
 		if ( toGoalUE < 5 ) {
-			var finish = Math.round( (new Date - start)/ 1000 );
+			var finish = Math.round( ( new Date - start ) / 1000 );
 			alert("Победа за " + finish + " сек.")};
 	};
 
@@ -91,6 +93,7 @@
                 <li>Рекорд</li>
                 <li>Раунд</li>
                 <li>Уровень сложности</li>
+                <li id="timer">Время</li>
             </ul>
         </div>
 
@@ -102,6 +105,8 @@
 					<div id="toGoal">Расстояние до цели: </div>
 					<div id="toGoalUE">Расстояние до цели в УЕ: </div>
 					<div id="mainCoords">Размеры главного дива: </div>
+
+
 
   </body>
 </html>
