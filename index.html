@@ -9,7 +9,6 @@
           margin: 0px;
           padding: 60px 0 0 0;
       }
-
       #menu {
           overflow: hidden;
           position: fixed;
@@ -18,12 +17,10 @@
           width: 100%;
           height: 50px;
       }
-
       ul {
           list-style: none;
           margin: 0;
       }
-
       li {
           text-decoration: none;
           padding-left: 20px;
@@ -39,18 +36,14 @@
         width: auto;
         height: 50px;
       }
-
       .bottom {
         line-height: 25px;
         height: 25px;
       }
-
       #levelIndicator {
         padding-left: 5px;
         font-size: 120%;
       }
-
-
       .b-popup {
         width:100%;
         min-height:100%;
@@ -59,7 +52,6 @@
         position:fixed;
         top:0px;
       }
-
       .b-popup .b-popup-content {
         margin:100px auto 0px auto;
         width:500px;
@@ -74,8 +66,8 @@
     <script src="jquery-2.0.2.min.js"></script>
 
     <script>
-    // версия для разработки
 
+    // версия для разработки
     // Отработка PopUP с описанием правил игры
 
         $(document).ready( function(){ PopUpHide(); }); //Скрыть PopUp при загрузке страницы
@@ -84,64 +76,88 @@
 
     // Определение переменных
 
-    var start = new Date;
-    var level = 5;
-		var blueColor = 255;
-		var redColor = 0;
-		var cWidth = document.documentElement.clientWidth;
-		var cHeight = document.documentElement.clientHeight;
-		var goal = {
-			x: Math.round( Math.random() * cWidth ),
-			y: Math.round( Math.random() * cHeight ),
-		};
+        var start = new Date;
+        var level = 5;
+		    var blueColor = 255;
+		    var redColor = 0;
+		    var cWidth = document.documentElement.clientWidth;
+		    var cHeight = document.documentElement.clientHeight;
+		    var goal = {
+	    		x: Math.round( Math.random() * cWidth ),
+	    		y: Math.round( Math.random() * cHeight ),
+		    };
+        var round = 1;
+        var rounds = [];
 
     // Установка уровня сложности
-    var up   =  function() {
-      level = level + 1;
-      document.getElementById('levelIndicator').innerHTML = level ;
-    };
 
-    var down =  function() {
-      if (level > 1) {
-        level = level - 1;
-        document.getElementById('levelIndicator').innerHTML = level ;
-      } else {
+        var up   =  function() {
+          level = level + 1;
+          document.getElementById('levelIndicator').innerHTML = level ;
+        };
+
+        var down =  function() {
+          if (level > 1) {
+            level = level - 1;
+            document.getElementById('levelIndicator').innerHTML =   level ;
+        } else {
         alert('Это самый сложный уровень');
-      }
-    };
+          }
+        };
 
-    // Игра при движении курсором
+    // Возвращаем биссектриссу экрана
 
-    document.onmousemove = function(e) {
+        var getClientBisector = function() {
+          return Math.round( Math.sqrt( Math.pow(cWidth, 2)  + Math.pow(cHeight, 2)));
+        }
+
+    // Возвращаем расстойние до цели в условных единицах
+
+        var getBgColor = function(eclientX, eclientY) {
+          var toGoalX = goal.x - eclientX;
+			    var toGoalY = goal.y - eclientY;
+			    var toGoal = Math.round( Math.sqrt( Math.pow(toGoalX, 2) + Math.pow(toGoalY, 2)));
+			    var toGoalUE = Math.round( +toGoal * 255  / +getClientBisector() );
+
+          return toGoalUE;
+          }
+    // Таймер
+
+        var timer = function() {
+          document.getElementById('timer').innerHTML = 'Время: ' + Math.round( ( new Date - start ) / 1000 );
+
+    }
+
+    // Функция игры
 
 
-			var cBisector = Math.round( Math.sqrt( Math.pow(cWidth, 2)  + Math.pow(cHeight, 2)));
+      document.onmousemove = function(e) {
 
-			var toGoalX = goal.x - e.clientX;
-			var toGoalY = goal.y - e.clientY;
-			var toGoal = Math.round( Math.sqrt( Math.pow(toGoalX, 2) + Math.pow(toGoalY, 2)));
-			var toGoalUE = Math.round( +toGoal * 255  / +cBisector );
+        if ( getBgColor(e.clientX, e.clientY) != level ) {
+          timer();
 
-			document.getElementById('coords').innerHTML = 'Координаты: ' + e.clientX + ' : ' + e.clientY;
-			document.getElementById('blue').innerHTML = 'Синий: '+ blueColor;
-			document.getElementById('red').innerHTML = ' Красный: '+ redColor;
-			document.getElementById('toGoalX').innerHTML = ' Расстояние до цели Х: ' + toGoalX;
-			document.getElementById('toGoalY').innerHTML = ' Расстояние до цели У: ' + toGoalY;
-			document.getElementById('toGoal').innerHTML = ' Расстояние до цели: ' + toGoal;
-			document.getElementById('toGoalUE').innerHTML = ' Расстояние до цели в УЕ: ' + toGoalUE;
-			document.getElementById('mainCoords').innerHTML = ' Ширина: ' + cWidth +
-																										'<br> Высота: ' + cHeight +
-																										'<br> Биссектрисса: ' + cBisector;
+          redColor  = 255 - getBgColor(e.clientX, e.clientY);
+          document.body.style.backgroundColor =  'rgb(' + redColor + ', 00, ' + getBgColor(e.clientX, e.clientY) + ')' ;
 
-      document.getElementById('timer').innerHTML = 'Время: ' + Math.round( ( new Date - start ) / 1000 );
+        } else {
+			    var finish = Math.round( ( new Date - start ) / 1000 );
+          rounds.push(finish);
+          round++;
+            function compareNumeric(a, b) {
+              if (a > b) return 1;
+              if (a < b) return -1;
+            }
+            rounds.sort(compareNumeric);
 
-		redColor  = 255 - toGoalUE;
+          document.getElementById('round').innerHTML = 'Раунд: ' + round;
+			    alert("Победа за " + finish + " сек.");
+          start = new Date;
+          document.getElementById('bestRoundTime').innerHTML = 'Время лучшего раунда: ' + rounds[0] + ' сек.';
 
-		document.body.style.backgroundColor =  'rgb(' + redColor + ', 00, ' + toGoalUE + ')' ;
-		if ( toGoalUE < level ) {
-			var finish = Math.round( ( new Date - start ) / 1000 );
-			alert("Победа за " + finish + " сек.")};
-	};
+        };
+  };
+
+
     </script>
 </head>
 
@@ -165,20 +181,10 @@
                     </div>
                 </li>
                 <li id="timer">Время</li>
+                <li id="round">Раунд: 1</li>
+                <li id="bestRoundTime">Время лучшего раунда: --</li>
             </ul>
         </div>
-
-    	  	<div id="coords">Координаты</div>
-					<div id="blue">Синий</div>
-					<div id="red">Красный</div>
-					<div id="toGoalX">Расстояние до цели Х: </div>
-					<div id="toGoalY">Расстояние до цели У:</div>
-					<div id="toGoal">Расстояние до цели: </div>
-					<div id="toGoalUE">Расстояние до цели в УЕ: </div>
-					<div id="mainCoords">Размеры главного дива: </div>
-
-
-
           </div>
           <div class="b-popup" id="popup1">
               <div class="b-popup-content">
@@ -187,11 +193,5 @@
                 При отдалении - наоборот синеет <br><br>
                 <a href="javascript:PopUpHide()"> Вернуть к игре</a>
               </div>
-
-
-
-
-
-
   </body>
 </html>
