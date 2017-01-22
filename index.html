@@ -67,6 +67,7 @@
 
     <script>
 
+
     // версия для разработки
     // Отработка PopUP с описанием правил игры
 
@@ -88,6 +89,15 @@
 		    };
         var round = 1;
         var rounds = [];
+
+    // Определить цель
+
+      var getNewGoal = function() {
+        goal = {
+	    		x: Math.round( Math.random() * cWidth ),
+	    		y: Math.round( Math.random() * cHeight ),
+		    };
+      }
 
     // Установка уровня сложности
 
@@ -140,6 +150,7 @@
           document.body.style.backgroundColor =  'rgb(' + redColor + ', 00, ' + getBgColor(e.clientX, e.clientY) + ')' ;
 
         } else {
+          document.body.style.backgroundColor =  '#FFF' ;
 			    var finish = Math.round( ( new Date - start ) / 1000 );
           rounds.push(finish);
           round++;
@@ -149,6 +160,7 @@
             }
             rounds.sort(compareNumeric);
 
+          getNewGoal();
           document.getElementById('round').innerHTML = 'Раунд: ' + round;
 			    alert("Победа за " + finish + " сек.");
           start = new Date;
@@ -156,6 +168,8 @@
 
         };
   };
+
+
 
 
     </script>
