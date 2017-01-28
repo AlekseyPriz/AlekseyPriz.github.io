@@ -1,9 +1,6 @@
-    // версия для разработки
-    // Отработка PopUP с описанием правил игры
 
-        $(document).ready( function(){ PopUpHide(); }); //Скрыть PopUp при загрузке страницы
-        function PopUpShow(){ $("#popup1").show(); }//Функция отображения PopUp
-        function PopUpHide(){ $("#popup1").hide(); }//Функция скрытия PopUp
+    // версия для разработки
+
 
     // Определение переменных
 
