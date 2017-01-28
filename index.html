@@ -131,7 +131,7 @@
           return Math.round( Math.sqrt( Math.pow(cWidth, 2)  + Math.pow(cHeight, 2)));
         }
 
-    // Возвращаем расстойние до цели в условных единицах
+    // Возвращаем расстойние до цели в условных единицах. Результат - целое число от 1 до 255
 
         var getBgColor = function(eclientX, eclientY) {
           var toGoalX = goal.x - eclientX;
@@ -152,7 +152,9 @@
           var cursor = document.getElementById('cursor');
           cursor.style.left  = cursorX - 50 + 'px';
           cursor.style.top = cursorY - 50 + 'px';
-          cursor.style.backgroundColor =  'rgb(' + redColor + ', 00, ' + getBgColor(cursorX, cursorY) + ')' ;
+          //cursor.style.backgroundColor =  'rgb(' + redColor + ', 000, ' + getBgColor(cursorX, cursorY) + ')' ;
+          cursor.style.backgroundColor =  'rgb(' + redColor + ', 000, 000)'
+
         }
 
     // Функция игры
