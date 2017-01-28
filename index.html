@@ -169,8 +169,8 @@
           //document.body.style.backgroundColor =  'rgb(' + redColor + ', 00, ' + getBgColor(e.clientX, e.clientY) + ')' ;
 
         } else {
-          document.body.style.backgroundColor =  '#FFF' ;
-			    var finish = Math.round( ( new Date - start ) / 1000 );
+          //document.body.style.backgroundColor =  '#FFF' ;
+			    var finish = Math.round( (( new Date - start ) / 1000) * 100 ) / 100;
           rounds.push(finish);
           round++;
             function compareNumeric(a, b) {
