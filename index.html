@@ -8,6 +8,7 @@
       body {
           margin: 0px;
           padding: 60px 0 0 0;
+          background-color: #f9f9f9;
       }
       #menu {
           overflow: hidden;
@@ -60,6 +61,15 @@
         background-color: #c5c5c5;
         border-radius:5px;
         box-shadow: 0px 0px 10px #000;
+      }
+      #cursor {
+        width: 100px;
+        height: 100px;
+        background-color: #FFFFFF;
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        border-radius: 50%;
       }
     </style>
 
@@ -135,19 +145,28 @@
 
         var timer = function() {
           document.getElementById('timer').innerHTML = 'Время: ' + Math.round( ( new Date - start ) / 1000 );
-
     }
+
+    // Привязываем див к курсору
+        var cursorPosition = function(cursorX, cursorY) {
+          var cursor = document.getElementById('cursor');
+          cursor.style.left  = cursorX - 50 + 'px';
+          cursor.style.top = cursorY - 50 + 'px';
+          cursor.style.backgroundColor =  'rgb(' + redColor + ', 00, ' + getBgColor(cursorX, cursorY) + ')' ;
+        }
 
     // Функция игры
 
 
       document.onmousemove = function(e) {
 
+          cursorPosition(e.clientX, e.clientY);
+
         if ( getBgColor(e.clientX, e.clientY) != level ) {
           timer();
 
           redColor  = 255 - getBgColor(e.clientX, e.clientY);
-          document.body.style.backgroundColor =  'rgb(' + redColor + ', 00, ' + getBgColor(e.clientX, e.clientY) + ')' ;
+          //document.body.style.backgroundColor =  'rgb(' + redColor + ', 00, ' + getBgColor(e.clientX, e.clientY) + ')' ;
 
         } else {
           document.body.style.backgroundColor =  '#FFF' ;
@@ -176,6 +195,7 @@
 </head>
 
 <body>
+  <div id="cursor"></div>
         <div id="menu">
             <ul>
                 <li><a href="javascript:PopUpShow()">Правила игры</a></li>
@@ -200,6 +220,7 @@
             </ul>
         </div>
           </div>
+
           <div class="b-popup" id="popup1">
               <div class="b-popup-content">
                 У игры одно правило - как можно быстрее найти цель (произвольно загаданный пиксель в
